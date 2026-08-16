@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sage
+  namespace: k8sage
+  labels:
+    app: sage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sage
+  template:
+    metadata:
+      labels:
+        app: sage
+    spec:
+      containers:
+        - name: sage
+          image: ghcr.io/abhinaverma97/k8sage-sage
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: k8sage-config
+            - secretRef:
+                name: k8sage-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sage
+  namespace: k8sage
+spec:
+  selector:
+    app: sage
+  ports:
+    - port: 8081
+      targetPort: 8081
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sage
+  namespace: k8sage
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sage
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

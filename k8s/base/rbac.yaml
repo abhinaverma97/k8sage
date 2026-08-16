@@ -1,0 +1,49 @@
+# Security story of the project:
+# - evidence runs as a dedicated ServiceAccount
+# - the ClusterRole below is READ-ONLY: get/list/watch only
+# - no create/update/delete/exec anywhere — the LLM physically cannot mutate the cluster
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: evidence
+  namespace: k8sage
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8sage-evidence-read
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - nodes
+      - namespaces
+      - events
+      - configmaps
+      - services
+      - persistentvolumeclaims
+      - serviceaccounts
+    verbs: [get, list, watch]
+  - apiGroups: ["apps"]
+    resources: [deployments, statefulsets, daemonsets, replicasets]
+    verbs: [get, list, watch]
+  - apiGroups: ["metrics.k8s.io"]
+    resources: [nodes, pods]
+    verbs: [get, list]
+  - apiGroups: ["batch"]
+    resources: [jobs, cronjobs]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8sage-evidence-read
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k8sage-evidence-read
+subjects:
+  - kind: ServiceAccount
+    name: evidence
+    namespace: k8sage

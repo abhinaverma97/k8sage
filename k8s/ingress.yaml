@@ -1,0 +1,40 @@
+# REFERENCE MANIFEST — not applied on the shared VPS.
+#
+# The default deployment target (see docs/deploy.md) is the existing Oracle
+# VPS where Caddy owns 80/443, so Traefik is disabled at k3s install and
+# services are exposed via NodePort + Caddy reverse proxy.
+#
+# If you get a dedicated node (e.g. the terraform/ module in this repo),
+# re-enable Traefik (drop --disable traefik) and apply this Ingress instead.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8sage
+  namespace: k8sage
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - sage.example.com
+      secretName: k8sage-tls
+  rules:
+    - host: sage.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 3000

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evidence
+  namespace: k8sage
+  labels:
+    app: evidence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: evidence
+  template:
+    metadata:
+      labels:
+        app: evidence
+    spec:
+      serviceAccountName: evidence
+      containers:
+        - name: evidence
+          image: ghcr.io/abhinaverma97/k8sage-evidence
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: k8sage-config
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 10
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: evidence
+  namespace: k8sage
+spec:
+  selector:
+    app: evidence
+  ports:
+    - port: 8082
+      targetPort: 8082

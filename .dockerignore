@@ -1,0 +1,13 @@
+**/node_modules
+**/.next
+**/dist
+**/coverage
+.git
+.gitignore
+*.log
+kubeconfig
+.terraform
+*.tfstate
+*.tfstate.*
+Dockerfile.debug
+debug-*

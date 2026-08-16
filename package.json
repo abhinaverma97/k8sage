@@ -1,0 +1,27 @@
+{
+  "name": "k8sage",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev:evidence": "pnpm --filter @k8sage/evidence dev",
+    "dev:sage": "pnpm --filter @k8sage/sage dev",
+    "dev:gateway": "pnpm --filter @k8sage/gateway dev",
+    "dev:frontend": "pnpm --filter @k8sage/frontend dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "test": "vitest run --dir apps",
+    "test:watch": "vitest --dir apps"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@types/node": "^20",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "globals": "^17.11.0",
+    "typescript": "^5",
+    "typescript-eslint": "^8",
+    "vitest": "^4.1.9"
+  }
+}
