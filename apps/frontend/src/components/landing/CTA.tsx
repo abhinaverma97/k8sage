@@ -13,7 +13,7 @@ export default function CTA() {
         <div className="mt-8">
           <Link
             href="/dashboard"
-            className="rounded-full bg-ink-50 px-6 py-3 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
+            className="rounded-lg bg-ink-50 px-6 py-3 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
           >
             Open dashboard
           </Link>

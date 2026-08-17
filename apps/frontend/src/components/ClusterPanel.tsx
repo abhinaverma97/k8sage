@@ -122,8 +122,8 @@ export default function ClusterPanel() {
                           <span>cpu</span>
                           <span>{formatCpu(node.usage?.cpuUsageNano ?? 0)} / {node.cpu}</span>
                         </div>
-                        <div className="h-1 rounded-full bg-ink-600">
-                          <div className="h-1 rounded-full bg-ink-100" style={{ width: `${Math.max(cpuPct, 2)}%` }} />
+                        <div className="h-1 rounded-lg bg-ink-600">
+                          <div className="h-1 rounded-lg bg-ink-100" style={{ width: `${Math.max(cpuPct, 2)}%` }} />
                         </div>
                       </div>
                       <div>
@@ -131,8 +131,8 @@ export default function ClusterPanel() {
                           <span>mem</span>
                           <span>{formatBytes(node.usage?.memUsageBytes ?? 0)} / {node.memory}</span>
                         </div>
-                        <div className="h-1 rounded-full bg-ink-600">
-                          <div className="h-1 rounded-full bg-ink-100" style={{ width: `${Math.max(memPct, 2)}%` }} />
+                        <div className="h-1 rounded-lg bg-ink-600">
+                          <div className="h-1 rounded-lg bg-ink-100" style={{ width: `${Math.max(memPct, 2)}%` }} />
                         </div>
                       </div>
                     </div>

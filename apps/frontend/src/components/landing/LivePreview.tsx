@@ -31,7 +31,7 @@ export default function LivePreview() {
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-ink-600 bg-ink-900">
+    <div className="overflow-hidden rounded-lg border border-ink-600 bg-ink-900">
       <div className="flex items-center justify-between border-b border-ink-600 px-4 py-2.5">
         <div className="flex items-center gap-2">
           <StatusDot tone={loading ? "idle" : error ? "warn" : "ok"} />
@@ -98,8 +98,8 @@ export default function LivePreview() {
                           {formatCpu(node.usage?.cpuUsageNano ?? 0)} / {node.cpu}
                         </span>
                       </div>
-                      <div className="h-1 rounded-full bg-ink-600">
-                        <div className="h-1 rounded-full bg-ink-100" style={{ width: `${Math.max(cpuPct, 2)}%` }} />
+                      <div className="h-1 rounded-lg bg-ink-600">
+                        <div className="h-1 rounded-lg bg-ink-100" style={{ width: `${Math.max(cpuPct, 2)}%` }} />
                       </div>
                     </div>
                     <div>
@@ -109,8 +109,8 @@ export default function LivePreview() {
                           {formatBytes(node.usage?.memUsageBytes ?? 0)} / {node.memory}
                         </span>
                       </div>
-                      <div className="h-1 rounded-full bg-ink-600">
-                        <div className="h-1 rounded-full bg-ink-100" style={{ width: `${Math.max(memPct, 2)}%` }} />
+                      <div className="h-1 rounded-lg bg-ink-600">
+                        <div className="h-1 rounded-lg bg-ink-100" style={{ width: `${Math.max(memPct, 2)}%` }} />
                       </div>
                     </div>
                   </div>

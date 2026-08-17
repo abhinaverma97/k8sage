@@ -11,7 +11,7 @@ export default function Nav() {
     <header className="sticky top-0 z-40 border-b border-ink-600 bg-ink-950/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="grid size-6 place-items-center rounded-md border border-ink-500 bg-ink-800 font-mono text-[11px] font-medium text-ink-50">
+          <span className="grid size-6 place-items-center rounded-sm border border-ink-500 bg-ink-800 font-mono text-[11px] font-medium text-ink-50">
             k8
           </span>
           <span className="font-mono text-sm font-medium tracking-tight text-ink-50">
@@ -31,7 +31,7 @@ export default function Nav() {
         </nav>
         <Link
           href="/dashboard"
-          className="rounded-full border border-ink-500 bg-ink-50 px-4 py-1.5 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
+          className="rounded-lg border border-ink-500 bg-ink-50 px-4 py-1.5 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
         >
           Open dashboard
         </Link>

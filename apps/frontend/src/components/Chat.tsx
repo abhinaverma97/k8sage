@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GATEWAY_URL, sseStream, type ChatTurn } from "@/lib/api";
+import Markdown from "@/components/ui/Markdown";
 
 const SUGGESTIONS = [
   "Why is my pod in CrashLoopBackOff?",
@@ -100,7 +101,7 @@ export default function Chat() {
                 <button
                   key={s}
                   onClick={() => void send(s)}
-                  className="rounded-full border border-ink-600 px-3.5 py-1.5 text-xs text-ink-300 transition hover:border-ink-400 hover:text-ink-50 active:scale-[0.98]"
+                  className="rounded-lg border border-ink-600 px-3.5 py-1.5 text-xs text-ink-300 transition hover:border-ink-400 hover:text-ink-50 active:scale-[0.98]"
                 >
                   {s}
                 </button>
@@ -143,7 +144,7 @@ export default function Chat() {
                   {turn.error}
                 </p>
               ) : turn.content ? (
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">{turn.content}</p>
+                <Markdown>{turn.content}</Markdown>
               ) : busy && turns[turns.length - 1]?.id === turn.id ? (
                 <p className="animate-pulse font-mono text-xs text-ink-400">working…</p>
               ) : null}
@@ -172,7 +173,7 @@ export default function Chat() {
           <button
             type="submit"
             disabled={busy || !input.trim()}
-            className="rounded-full bg-ink-50 px-5 py-2 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98] disabled:opacity-40"
+            className="rounded-lg bg-ink-50 px-5 py-2 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98] disabled:opacity-40"
           >
             Ask
           </button>

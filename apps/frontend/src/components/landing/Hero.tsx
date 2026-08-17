@@ -23,13 +23,13 @@ export default function Hero() {
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link
             href="/dashboard"
-            className="rounded-full bg-ink-50 px-5 py-2.5 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
+            className="rounded-lg bg-ink-50 px-5 py-2.5 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
           >
             Open dashboard
           </Link>
           <a
             href="#how"
-            className="rounded-full border border-ink-600 px-5 py-2.5 text-sm font-medium text-ink-200 transition hover:border-ink-400 hover:text-ink-50 active:scale-[0.98]"
+            className="rounded-lg border border-ink-600 px-5 py-2.5 text-sm font-medium text-ink-200 transition hover:border-ink-400 hover:text-ink-50 active:scale-[0.98]"
           >
             How it works
           </a>

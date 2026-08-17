@@ -40,13 +40,13 @@ export default function Security() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="overflow-hidden rounded-xl border border-ink-600 bg-ink-950"
+          className="overflow-hidden rounded-lg border border-ink-600 bg-ink-950"
         >
           <div className="flex items-center justify-between border-b border-ink-600 px-4 py-2.5">
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-300">
               clusterrole · evidence
             </span>
-            <span className="rounded-md border border-ink-600 px-2 py-0.5 font-mono text-[10px] text-ink-400">
+            <span className="rounded-sm border border-ink-600 px-2 py-0.5 font-mono text-[10px] text-ink-400">
               k8s/rbac.yaml
             </span>
           </div>

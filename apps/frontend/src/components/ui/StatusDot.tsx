@@ -13,7 +13,7 @@ export function StatusDot({
   return (
     <span
       aria-hidden
-      className={`inline-block size-1.5 rounded-full ${styles[tone]} ${className}`}
+      className={`inline-block size-1.5 rounded-lg ${styles[tone]} ${className}`}
     />
   );
 }

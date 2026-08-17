@@ -26,7 +26,7 @@ const cells = [
         {["pod_status", "pod_events", "pod_logs", "node_status", "cluster_summary"].map((t) => (
           <span
             key={t}
-            className="rounded-md border border-ink-600 bg-ink-800 px-2 py-1 font-mono text-[10px] text-ink-200"
+            className="rounded-sm border border-ink-600 bg-ink-800 px-2 py-1 font-mono text-[10px] text-ink-200"
           >
             {t}
           </span>
@@ -59,7 +59,7 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-            className={`rounded-xl border border-ink-600 bg-ink-900 p-6 ${
+            className={`rounded-lg border border-ink-600 bg-ink-900 p-6 ${
               i === 0 ? "md:col-span-2" : ""
             } ${i === 3 ? "md:col-span-2" : ""}`}
           >
