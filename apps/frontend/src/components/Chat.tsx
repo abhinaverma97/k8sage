@@ -91,7 +91,7 @@ export default function Chat() {
     <div className="flex h-full flex-col">
       <div className="scrollbar-thin flex-1 overflow-y-auto px-4 py-6">
         {turns.length === 0 && (
-          <div className="mx-auto mt-10 max-w-xl space-y-6">
+          <div className="mx-auto mt-10 max-w-3xl space-y-6">
             <p className="text-sm leading-relaxed text-ink-400">
               Ask about this cluster in plain English. Answers are backed by
               live state: pod status, events, log tails, node resources.
@@ -110,7 +110,7 @@ export default function Chat() {
           </div>
         )}
 
-        <div className="mx-auto max-w-xl divide-y divide-ink-600">
+        <div className="mx-auto max-w-3xl divide-y divide-ink-600">
           {turns.map((turn) => (
             <div
               key={turn.id}
@@ -156,7 +156,7 @@ export default function Chat() {
 
       <div className="border-t border-ink-600 px-4 py-3">
         <form
-          className="mx-auto flex max-w-xl gap-2"
+          className="mx-auto flex max-w-3xl gap-2"
           onSubmit={(e) => {
             e.preventDefault();
             void send(input);
