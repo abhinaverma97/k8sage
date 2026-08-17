@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { fetchClusterSummary, fetchPods, type ClusterSummary, type PodLite } from "@/lib/api";
 import { formatBytes, formatCpu } from "@/lib/format";
 import { StatusDot } from "@/components/ui/StatusDot";
@@ -30,6 +30,7 @@ export default function ClusterPanel() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     try {
@@ -135,34 +136,78 @@ export default function ClusterPanel() {
                   {sorted.map((pod) => {
                     const tone = statusTone(pod);
                     const status = podStatus(pod);
+                    const isOpen = expanded === pod.name;
                     const readyStr = pod.containers.length > 0
                       ? `${pod.containers.filter((c) => c.ready).length}/${pod.containers.length}`
                       : pod.ready ? "1/1" : "0/0";
                     return (
-                      <tr key={pod.name} className="transition-colors hover:bg-ink-850">
-                        <td className="max-w-[180px] truncate px-4 py-2 text-ink-200" title={pod.name}>
-                          {pod.name}
-                        </td>
-                        <td className="px-2 py-2 text-ink-300">{readyStr}</td>
-                        <td className="px-2 py-2">
-                          <span
-                            className={`flex items-center gap-1.5 ${
-                              tone === "ok"
-                                ? "text-ink-400"
-                                : tone === "warn"
-                                  ? "font-medium text-ink-50"
-                                  : "italic text-ink-300"
-                            }`}
-                          >
-                            <StatusDot tone={tone} />
-                            {status}
-                          </span>
-                        </td>
-                        <td className="px-2 py-2 text-right text-ink-300">{pod.restarts}</td>
-                        <td className="px-4 py-2 text-right text-ink-300">
-                          {formatAge(pod.ageSeconds)}
-                        </td>
-                      </tr>
+                      <Fragment key={pod.name}>
+                        <tr
+                          onClick={() => setExpanded(isOpen ? null : pod.name)}
+                          aria-expanded={isOpen}
+                          className="cursor-pointer transition-colors hover:bg-ink-850"
+                        >
+                          <td className="max-w-[180px] truncate px-4 py-2 text-ink-200" title={pod.name}>
+                            <span className={isOpen ? "text-ink-50" : ""}>{pod.name}</span>
+                          </td>
+                          <td className="px-2 py-2 text-ink-300">{readyStr}</td>
+                          <td className="px-2 py-2">
+                            <span
+                              className={`flex items-center gap-1.5 ${
+                                tone === "ok"
+                                  ? "text-ink-400"
+                                  : tone === "warn"
+                                    ? "font-medium text-ink-50"
+                                    : "italic text-ink-300"
+                              }`}
+                            >
+                              <StatusDot tone={tone} />
+                              {status}
+                            </span>
+                          </td>
+                          <td className="px-2 py-2 text-right text-ink-300">{pod.restarts}</td>
+                          <td className="px-4 py-2 text-right text-ink-300">
+                            {formatAge(pod.ageSeconds)}
+                          </td>
+                        </tr>
+                        {isOpen && (
+                          <tr className="border-t border-ink-600/40 bg-ink-900">
+                            <td colSpan={5} className="px-4 py-3 font-mono text-[10px]">
+                              <div className="space-y-2">
+                                {pod.containers.map((c) => (
+                                  <div key={c.name} className="space-y-0.5">
+                                    <div className="flex items-center gap-2 text-ink-200">
+                                      <StatusDot tone={c.ready ? "ok" : c.reason ? "warn" : "idle"} />
+                                      <span className="font-medium text-ink-100">{c.name}</span>
+                                      <span className="text-ink-400">
+                                        {c.state}
+                                        {c.reason ? ` / ${c.reason}` : ""}
+                                      </span>
+                                      <span className="text-ink-500">restarts {c.restarts}</span>
+                                    </div>
+                                    {c.message && (
+                                      <p className="pl-3 text-ink-400">{c.message}</p>
+                                    )}
+                                  </div>
+                                ))}
+                                {pod.conditions.length > 0 && (
+                                  <div className="flex flex-wrap gap-x-4 gap-y-0.5 pt-1">
+                                    {pod.conditions.map((cond) => (
+                                      <span key={cond.type} className="text-ink-400">
+                                        {cond.type}
+                                        <span className="text-ink-500">={cond.status}</span>
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                                {pod.nodeName && (
+                                  <div className="text-ink-500">node: {pod.nodeName}</div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </Fragment>
                     );
                   })}
                 </tbody>
