@@ -38,6 +38,9 @@ importers:
       '@kubernetes/client-node':
         specifier: ^0.22.3
         version: 0.22.3
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       express:
         specifier: ^5.1.0
         version: 5.2.1
@@ -146,6 +149,9 @@ importers:
 
   apps/sage:
     dependencies:
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       express:
         specifier: ^5.1.0
         version: 5.2.1

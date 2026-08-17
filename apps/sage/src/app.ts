@@ -65,6 +65,6 @@ export function createApp(agent: Agent): Express {
 export function createRealAgent(): Agent {
   return createAgent({
     evidence: createEvidenceClient(EVIDENCE_URL),
-    model: process.env.GROQ_MODEL ?? "gpt-oss-120b",
+    model: process.env.GROQ_MODEL ?? "openai/gpt-oss-120b",
   });
 }

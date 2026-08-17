@@ -15,10 +15,15 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 `;
 
-export function createPgHistoryStore(connectionString: string): HistoryStore & { close(): Promise<void> } {
+export function createPgHistoryStore(
+  connectionString: string,
+): HistoryStore & { init(): Promise<void>; close(): Promise<void> } {
   const pool = new pg.Pool({ connectionString, max: 5 });
 
   return {
+    async init() {
+      await pool.query(SCHEMA);
+    },
     async createConversation(id) {
       await pool.query(
         `INSERT INTO conversations (id) VALUES ($1) ON CONFLICT (id) DO NOTHING`,

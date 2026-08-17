@@ -74,26 +74,48 @@ terraform/    OCI provider: VCN + A1.Flex node(s) + k3s cloud-init (standalone p
 | **StatefulSet postgres** | Chat history survives restarts via local-path PVC. |
 | **Groq, not self-hosted LLM** | Free, fast, no GPU — Ollama is documented future work. |
 
-## Quickstart (local, no cluster needed)
+## Quickstart
+
+### Run on a real local cluster (k3d) — recommended
+
+A real k3s cluster in Docker, zero mock data, same manifests as production:
+
+```bash
+# one-time
+winget install --id k3d.k3d
+k3d cluster create k8sage --port 30080:30080@server:0 --port 30081:30081@server:0
+
+# build + load images (or let CI push to GHCR and pull)
+docker build -f apps/gateway/Dockerfile -t ghcr.io/abhinaverma97/k8sage-gateway:v0.1.0 .
+docker build -f apps/sage/Dockerfile -t ghcr.io/abhinaverma97/k8sage-sage:v0.1.0 .
+docker build -f apps/evidence/Dockerfile -t ghcr.io/abhinaverma97/k8sage-evidence:v0.1.0 .
+docker build -f apps/frontend/Dockerfile -t ghcr.io/abhinaverma97/k8sage-frontend:v0.1.0 \
+  --build-arg NEXT_PUBLIC_GATEWAY_URL=http://localhost:30080 .
+k3d image import -c k8sage ghcr.io/abhinaverma97/k8sage-{gateway,sage,evidence,frontend}:v0.1.0
+
+# secrets (Groq key in apps/sage/.env) + apply
+kubectl -n k8sage create secret generic k8sage-secrets \
+  --from-literal=GROQ_API_KEY=<key> --from-literal=POSTGRES_PASSWORD=<pass> \
+  --from-literal=DATABASE_URL=postgresql://k8sage:<pass>@postgres.k8sage.svc.cluster.local:5432/k8sage
+kubectl apply -k k8s/overlays/prod
+```
+
+Open http://localhost:30081 and ask "why is my pod crashing?" — evidence reads the
+**real** cluster through its RBAC service account. Note: HPA warnings about
+metrics are expected (k3s ships no metrics-server; min:1 holds).
+
+### Process-mode (offline code editing, no cluster)
+
+evidence runs in mock mode; fine for editing code, shows fabricated data:
 
 ```bash
 pnpm install
-
-# 1. evidence in mock mode (fake cluster data)
-pnpm --filter @k8sage/evidence dev          # K8SAGE_MOCK=1 → :8082
-
-# 2. sage (needs GROQ_API_KEY)
-cp apps/sage/.env.example apps/sage/.env    # add your key
-pnpm --filter @k8sage/sage dev              # :8081
-
-# 3. gateway (in-memory history, no DB needed)
-pnpm --filter @k8sage/gateway dev           # :8080
-
-# 4. frontend (points at localhost:8080 gateway)
-NEXT_PUBLIC_GATEWAY_URL=http://localhost:8080 pnpm --filter @k8sage/frontend dev   # :3000
+K8SAGE_MOCK=1 pnpm --filter @k8sage/evidence dev   # :8082
+cp apps/sage/.env.example apps/sage/.env           # add your Groq key
+pnpm --filter @k8sage/sage dev                     # :8081
+pnpm --filter @k8sage/gateway dev                  # :8080
+NEXT_PUBLIC_GATEWAY_URL=http://localhost:8080 pnpm --filter @k8sage/frontend dev  # :3000
 ```
-
-Then open http://localhost:3000 and ask "why is my pod in CrashLoopBackOff?".
 
 ## Tests
 

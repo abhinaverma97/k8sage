@@ -7,7 +7,7 @@ metadata:
   name: k8sage-config
   namespace: k8sage
 data:
-  OBSERVED_NAMESPACE: "default"
-  GROQ_MODEL: "gpt-oss-120b"
+  OBSERVED_NAMESPACE: "k8sage"
+  GROQ_MODEL: "openai/gpt-oss-120b"
   EVIDENCE_URL: "http://evidence.k8sage.svc.cluster.local:8082"
   SAGE_URL: "http://sage.k8sage.svc.cluster.local:8081"

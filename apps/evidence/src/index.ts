@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createApp } from "./app.js";
 import { createEvidenceApi, createRealEvidenceApi } from "./kube.js";
 
