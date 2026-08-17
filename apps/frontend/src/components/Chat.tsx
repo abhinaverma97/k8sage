@@ -5,7 +5,7 @@ import { GATEWAY_URL, sseStream, type ChatTurn } from "@/lib/api";
 
 const SUGGESTIONS = [
   "Why is my pod in CrashLoopBackOff?",
-  "Show me the cluster status",
+  "List the pods and their restart counts",
   "Are any nodes under memory pressure?",
   "What are the recent events for the gateway pod?",
 ];
@@ -88,19 +88,19 @@ export default function Chat() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 space-y-4 overflow-y-auto p-4">
+      <div className="scrollbar-thin flex-1 overflow-y-auto px-4 py-6">
         {turns.length === 0 && (
-          <div className="mt-8 space-y-3">
-            <p className="text-sm text-slate-400">
-              Ask anything about this cluster. K8Sage runs read-only diagnostics and answers with
-              evidence — restart counts, events, logs, node resources.
+          <div className="mx-auto mt-10 max-w-xl space-y-6">
+            <p className="text-sm leading-relaxed text-ink-400">
+              Ask about this cluster in plain English. Answers are backed by
+              live state: pod status, events, log tails, node resources.
             </p>
             <div className="flex flex-wrap gap-2">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   onClick={() => void send(s)}
-                  className="rounded-full border border-slate-700 px-3 py-1 text-xs text-slate-300 transition hover:border-emerald-500 hover:text-emerald-300"
+                  className="rounded-full border border-ink-600 px-3.5 py-1.5 text-xs text-ink-300 transition hover:border-ink-400 hover:text-ink-50 active:scale-[0.98]"
                 >
                   {s}
                 </button>
@@ -109,43 +109,53 @@ export default function Chat() {
           </div>
         )}
 
-        {turns.map((turn) => (
-          <div
-            key={turn.id}
-            className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
-              turn.role === "user"
-                ? "ml-auto bg-emerald-900/40 text-emerald-100"
-                : "mr-auto border border-slate-800 bg-slate-900 text-slate-200"
-            }`}
-          >
-            {turn.tools.length > 0 && (
-              <div className="mb-2 flex flex-wrap gap-1">
-                {turn.tools.map((tool, i) => (
-                  <span
-                    key={i}
-                    className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-cyan-300"
-                    title={JSON.stringify(tool.args)}
-                  >
-                    ◈ {tool.name}
+        <div className="mx-auto max-w-xl divide-y divide-ink-600">
+          {turns.map((turn) => (
+            <div
+              key={turn.id}
+              className={`py-5 ${turn.role === "user" ? "text-ink-100" : "text-ink-200"}`}
+            >
+              <div className="mb-2 flex items-center gap-2">
+                <span
+                  className={`font-mono text-[10px] uppercase tracking-[0.14em] ${
+                    turn.role === "user" ? "text-ink-300" : "text-ink-400"
+                  }`}
+                >
+                  {turn.role === "user" ? "you" : "k8sage"}
+                </span>
+                {turn.tools.length > 0 && (
+                  <span className="flex flex-wrap gap-1">
+                    {turn.tools.map((tool, i) => (
+                      <span
+                        key={i}
+                        className="rounded border border-ink-600 bg-ink-800 px-1.5 py-0.5 font-mono text-[10px] text-ink-300"
+                        title={JSON.stringify(tool.args)}
+                      >
+                        {tool.name}
+                      </span>
+                    ))}
                   </span>
-                ))}
+                )}
               </div>
-            )}
-            {turn.error ? (
-              <p className="text-red-400">⚠ {turn.error}</p>
-            ) : turn.content ? (
-              <p className="whitespace-pre-wrap">{turn.content}</p>
-            ) : busy && turns[turns.length - 1]?.id === turn.id ? (
-              <p className="animate-pulse text-slate-500">thinking…</p>
-            ) : null}
-          </div>
-        ))}
+              {turn.error ? (
+                <p className="text-sm text-ink-200">
+                  <span className="font-mono text-xs text-ink-400">error / </span>
+                  {turn.error}
+                </p>
+              ) : turn.content ? (
+                <p className="whitespace-pre-wrap text-sm leading-relaxed">{turn.content}</p>
+              ) : busy && turns[turns.length - 1]?.id === turn.id ? (
+                <p className="animate-pulse font-mono text-xs text-ink-400">working…</p>
+              ) : null}
+            </div>
+          ))}
+        </div>
         <div ref={bottomRef} />
       </div>
 
-      <div className="border-t border-slate-800 p-3">
+      <div className="border-t border-ink-600 px-4 py-3">
         <form
-          className="flex gap-2"
+          className="mx-auto flex max-w-xl gap-2"
           onSubmit={(e) => {
             e.preventDefault();
             void send(input);
@@ -154,14 +164,15 @@ export default function Chat() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="e.g. why is my pod in CrashLoopBackOff?"
+            placeholder="Ask about this cluster…"
             disabled={busy}
-            className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none disabled:opacity-50"
+            aria-label="Ask about this cluster"
+            className="flex-1 rounded-lg border border-ink-600 bg-ink-900 px-3.5 py-2.5 text-sm text-ink-100 placeholder:text-ink-400 focus:border-ink-300 focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={busy || !input.trim()}
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-500 disabled:opacity-40"
+            className="rounded-full bg-ink-50 px-5 py-2 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98] disabled:opacity-40"
           >
             Ask
           </button>

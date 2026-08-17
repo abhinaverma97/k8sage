@@ -1,10 +1,54 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ink-950: #0a0a0b;
+  --color-ink-900: #131316;
+  --color-ink-850: #18181c;
+  --color-ink-800: #1a1a1e;
+  --color-ink-700: #232327;
+  --color-ink-600: #27272a;
+  --color-ink-500: #3f3f46;
+  --color-ink-400: #6e6e76;
+  --color-ink-300: #a1a1aa;
+  --color-ink-200: #d4d4d8;
+  --color-ink-100: #f4f4f5;
+  --color-ink-50: #fafafa;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+}
+
 :root {
   color-scheme: dark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: #0a0e14;
-  color: #d4dce8;
+  background: var(--color-ink-950);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-ink-500);
+  color: var(--color-ink-50);
+}
+
+@layer utilities {
+  /* thin scrollbars for chat/panel panes */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
