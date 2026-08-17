@@ -1,13 +1,5 @@
-import DashboardHeader from "@/components/DashboardHeader";
-import DashboardStats from "@/components/DashboardStats";
-import DashboardBody from "@/components/DashboardBody";
+import Chat from "@/components/Chat";
 
-export default function DashboardPage() {
-  return (
-    <main className="flex h-dvh flex-col bg-ink-950">
-      <DashboardHeader />
-      <DashboardStats />
-      <DashboardBody />
-    </main>
-  );
+export default function AskPage() {
+  return <Chat />;
 }
