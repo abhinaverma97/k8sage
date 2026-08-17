@@ -107,6 +107,16 @@ export function createApp(deps: GatewayDeps): Express {
     }
   });
 
+  app.get("/api/pods", generalLimiter, async (_req, res) => {
+    try {
+      const pods = await deps.evidence.listPods();
+      res.json({ pods });
+    } catch (err) {
+      const text = err instanceof Error ? err.message : String(err);
+      res.status(502).json({ error: text });
+    }
+  });
+
   app.get("/api/history/:conversationId", generalLimiter, async (req, res) => {
     const conversationId = String(req.params.conversationId ?? "");
     const messages = await deps.history.getConversation(conversationId);

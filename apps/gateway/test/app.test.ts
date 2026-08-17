@@ -22,6 +22,20 @@ function fakeEvidence(summary: unknown): EvidenceClient {
     async clusterSummary() {
       return summary;
     },
+    async listPods() {
+      return [
+        {
+          name: "orders-57f8c5d4b-x98yz",
+          phase: "Running",
+          ready: false,
+          restarts: 7,
+          ageSeconds: 90000,
+          nodeName: "node-1",
+          containers: [{ name: "app", ready: false, restarts: 7, state: "waiting", reason: "CrashLoopBackOff" }],
+          conditions: [],
+        },
+      ];
+    },
   };
 }
 
@@ -99,10 +113,22 @@ describe("gateway HTTP API", () => {
         async clusterSummary() {
           throw new Error("evidence unreachable");
         },
+        async listPods() {
+          return [];
+        },
       },
     });
     const res = await request(app).get("/api/cluster");
     expect(res.status).toBe(502);
+  });
+
+  it("GET /api/pods returns the pod inventory", async () => {
+    const app = createApp(deps);
+    const res = await request(app).get("/api/pods");
+    expect(res.status).toBe(200);
+    expect(res.body.pods).toHaveLength(1);
+    expect(res.body.pods[0]?.name).toContain("orders");
+    expect(res.body.pods[0]?.restarts).toBe(7);
   });
 
   it("GET /api/history returns stored messages", async () => {

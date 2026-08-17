@@ -86,3 +86,36 @@ export async function fetchClusterSummary(): Promise<ClusterSummary> {
   if (!res.ok) throw new Error(`cluster endpoint returned ${res.status}`);
   return (await res.json()) as ClusterSummary;
 }
+
+export interface PodLite {
+  name: string;
+  namespace: string;
+  phase: string;
+  ready: boolean;
+  restarts: number;
+  ageSeconds: number;
+  nodeName?: string;
+  reason?: string;
+  message?: string;
+  containers: Array<{
+    name: string;
+    ready: boolean;
+    restarts: number;
+    state: string;
+    reason?: string;
+    message?: string;
+  }>;
+  conditions: Array<{
+    type: string;
+    status: string;
+    reason?: string;
+    message?: string;
+  }>;
+}
+
+export async function fetchPods(): Promise<PodLite[]> {
+  const res = await fetch(`${GATEWAY_URL}/api/pods`);
+  if (!res.ok) throw new Error(`pods endpoint returned ${res.status}`);
+  const data = (await res.json()) as { pods?: PodLite[] };
+  return data.pods ?? [];
+}

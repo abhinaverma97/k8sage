@@ -90,22 +90,30 @@ export function createChatClient(sageUrl: string): ChatClient {
 
 export interface EvidenceClient {
   clusterSummary(): Promise<unknown>;
+  listPods(): Promise<unknown>;
 }
 
 export function createEvidenceClient(evidenceUrl: string): EvidenceClient {
+  const runTool = async (tool: string, args: Record<string, unknown> = {}): Promise<unknown> => {
+    const res = await fetch(`${evidenceUrl}/run`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tool, args }),
+    });
+    if (!res.ok) {
+      throw new Error(`evidence returned ${res.status}`);
+    }
+    const data = (await res.json()) as { result?: unknown; error?: string };
+    if (data.error) throw new Error(`evidence: ${data.error}`);
+    return data.result;
+  };
+
   return {
     async clusterSummary() {
-      const res = await fetch(`${evidenceUrl}/run`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tool: "cluster_summary", args: {} }),
-      });
-      if (!res.ok) {
-        throw new Error(`evidence returned ${res.status}`);
-      }
-      const data = (await res.json()) as { result?: unknown; error?: string };
-      if (data.error) throw new Error(`evidence: ${data.error}`);
-      return data.result;
+      return runTool("cluster_summary");
+    },
+    async listPods() {
+      return runTool("pod_status");
     },
   };
 }
