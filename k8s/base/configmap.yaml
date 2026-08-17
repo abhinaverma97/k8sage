@@ -8,6 +8,6 @@ metadata:
   namespace: k8sage
 data:
   OBSERVED_NAMESPACE: "default"
-  GROQ_MODEL: "llama-3.3-70b-versatile"
+  GROQ_MODEL: "gpt-oss-120b"
   EVIDENCE_URL: "http://evidence.k8sage.svc.cluster.local:8082"
   SAGE_URL: "http://sage.k8sage.svc.cluster.local:8081"

@@ -65,6 +65,6 @@ export function createApp(agent: Agent): Express {
 export function createRealAgent(): Agent {
   return createAgent({
     evidence: createEvidenceClient(EVIDENCE_URL),
-    model: process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
+    model: process.env.GROQ_MODEL ?? "gpt-oss-120b",
   });
 }
