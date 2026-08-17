@@ -22,7 +22,7 @@ export default function StatsStrip() {
   }, []);
 
   if (!summary && !error) {
-    return <div className="h-24 animate-pulse" aria-hidden />;
+    return <div className="h-28 animate-pulse" aria-hidden />;
   }
 
   const stats = summary
@@ -40,14 +40,14 @@ export default function StatsStrip() {
       ];
 
   return (
-    <section className="mx-auto max-w-7xl px-5">
-      <dl className="grid grid-cols-2 divide-ink-600 border-t border-b border-ink-600 md:grid-cols-4 md:divide-x">
+    <section className="mx-auto max-w-7xl px-6">
+      <dl className="grid grid-cols-2 divide-x divide-border border-t border-b border-border md:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="px-4 py-6 md:py-8">
-            <dd className="font-mono text-2xl tracking-tight text-ink-50 md:text-3xl">
+          <div key={stat.label} className="px-5 py-7 md:py-9">
+            <dd className="font-mono text-3xl tracking-tight text-foreground md:text-4xl">
               {stat.value}
             </dd>
-            <dt className="mt-1.5 text-[11px] uppercase tracking-[0.12em] text-ink-400">
+            <dt className="mt-2 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
               {stat.label}
             </dt>
           </div>

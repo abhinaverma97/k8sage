@@ -23,11 +23,11 @@ const steps = [
 export default function HowItWorks() {
   const reduce = useReducedMotion();
   return (
-    <section id="how" className="mx-auto max-w-7xl px-5 py-24">
-      <h2 className="max-w-2xl text-3xl font-medium tracking-tight text-ink-50 md:text-4xl">
+    <section id="how" className="mx-auto max-w-7xl px-6 py-24">
+      <h2 className="max-w-2xl text-3xl font-medium tracking-tight text-foreground md:text-4xl">
         Ask, evidence, answer.
       </h2>
-      <div className="mt-10 divide-y divide-ink-600 border-t border-b border-ink-600">
+      <div className="mt-10 divide-y divide-border border-t border-b border-border">
         {steps.map((step, i) => (
           <motion.div
             key={step.n}
@@ -35,13 +35,15 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="grid gap-2 py-7 md:grid-cols-12 md:gap-8"
+            className="grid gap-2 py-8 md:grid-cols-12 md:gap-8"
           >
-            <span className="font-mono text-sm text-ink-400 md:col-span-1">{step.n}</span>
-            <h3 className="text-xl font-medium tracking-tight text-ink-50 md:col-span-3">
+            <span className="font-mono text-sm text-muted-foreground md:col-span-1">
+              {step.n}
+            </span>
+            <h3 className="text-xl font-medium tracking-tight text-foreground md:col-span-3">
               {step.title}
             </h3>
-            <p className="max-w-xl text-sm leading-relaxed text-ink-300 md:col-span-8">
+            <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:col-span-8">
               {step.body}
             </p>
           </motion.div>

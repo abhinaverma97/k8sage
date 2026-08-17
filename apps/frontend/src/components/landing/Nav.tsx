@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "#features", label: "Product" },
@@ -8,13 +9,13 @@ const links = [
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-600 bg-ink-950/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="grid size-6 place-items-center rounded-sm border border-ink-500 bg-ink-800 font-mono text-[11px] font-medium text-ink-50">
+          <span className="grid size-6 place-items-center rounded-sm border border-border bg-card font-mono text-[11px] font-medium text-foreground">
             k8
           </span>
-          <span className="font-mono text-sm font-medium tracking-tight text-ink-50">
+          <span className="font-mono text-sm font-medium tracking-tight text-foreground">
             k8sage
           </span>
         </Link>
@@ -23,18 +24,15 @@ export default function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-ink-300 transition-colors hover:text-ink-50"
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </a>
           ))}
         </nav>
-        <Link
-          href="/dashboard"
-          className="rounded-lg border border-ink-500 bg-ink-50 px-4 py-1.5 text-sm font-medium text-ink-950 transition hover:bg-ink-100 active:scale-[0.98]"
-        >
-          Open dashboard
-        </Link>
+        <Button asChild>
+          <Link href="/dashboard">Open dashboard</Link>
+        </Button>
       </div>
     </header>
   );
