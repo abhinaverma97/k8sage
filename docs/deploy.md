@@ -48,7 +48,7 @@ Add a site to `/etc/caddy/Caddyfile`:
 
 ```
 k8sage.itsabhi.in {
-    handle_path /api/* {
+    handle /api/* {
         reverse_proxy 127.0.0.1:30080
     }
     handle {
