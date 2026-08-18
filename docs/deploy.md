@@ -7,7 +7,7 @@ Vexa. k3s runs **on the same box**; Caddy keeps owning 80/443.
 ## Topology
 
 ```
-sage.itsabhi.in (A record → 92.4.74.77)
+k8sage.itsabhi.in (A record → 92.4.74.77)
         │
     Caddy  ── TLS via Let's Encrypt (already configured)
         │
@@ -19,7 +19,7 @@ sage.itsabhi.in (A record → 92.4.74.77)
 
 ## 1. DNS
 
-Add an A record: `sage.itsabhi.in → 92.4.74.77`.
+Add an A record: `k8sage.itsabhi.in → 92.4.74.77`.
 
 ## 2. GitHub secrets
 
@@ -47,7 +47,7 @@ Push to `main`. `cd.yml` will:
 Add a site to `/etc/caddy/Caddyfile`:
 
 ```
-sage.itsabhi.in {
+k8sage.itsabhi.in {
     handle_path /api/* {
         reverse_proxy 127.0.0.1:30080
     }
@@ -62,8 +62,8 @@ Reload: `sudo caddy reload --config /etc/caddy/Caddyfile --force`
 ## 5. Verify
 
 ```bash
-curl -s https://sage.itsabhi.in/api/cluster | head -c 400
-curl -s -o /dev/null -w '%{http_code}\n' https://sage.itsabhi.in/
+curl -s https://k8sage.itsabhi.in/api/cluster | head -c 400
+curl -s -o /dev/null -w '%{http_code}\n' https://k8sage.itsabhi.in/
 ```
 
 ## Operations

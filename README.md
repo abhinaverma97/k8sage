@@ -12,7 +12,7 @@ service account**, then answers with the evidence attached.
 ## Architecture
 
 ```
-sage.itsabhi.in (A record → VPS public IP; Caddy terminates TLS)
+k8sage.itsabhi.in (A record → VPS public IP; Caddy terminates TLS)
         │
   Caddy: /api/* → gateway NodePort 30080 · everything else → frontend NodePort 30081
         │

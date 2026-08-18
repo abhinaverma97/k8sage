@@ -11,7 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_ROOT: ghcr.io/abhinaverma97
-  NEXT_PUBLIC_GATEWAY_URL: https://sage.itsabhi.in
+  NEXT_PUBLIC_GATEWAY_URL: https://k8sage.itsabhi.in
 
 jobs:
   build:

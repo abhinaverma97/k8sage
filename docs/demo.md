@@ -7,7 +7,7 @@ someone's laptop).
 ## 0. Setup (10s)
 
 ```bash
-curl -s https://sage.itsabhi.in/api/cluster | head -c 300   # live data
+curl -s https://k8sage.itsabhi.in/api/cluster | head -c 300   # live data
 sudo kubectl get nodes,pods -n k8sage                        # what it's watching
 ```
 
