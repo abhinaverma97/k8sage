@@ -317,7 +317,7 @@ export default function ClusterView() {
                       </div>
                       <div className="mt-4 space-y-3.5">
                         <div>
-                          <div className="mb-1.5 flex items-baseline justify-between">
+                          <div className="mb-1.5 flex items-baseline justify-between gap-2">
                             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
                               cpu
                             </span>
@@ -325,10 +325,10 @@ export default function ClusterView() {
                               {formatCpu(node.usage?.cpuUsageNano ?? 0)}
                               <span className="text-muted-foreground">
                                 {" "}
-                                / {node.cpu} cores
+                                / {node.cpu} {parseInt(node.cpu) === 1 ? "core" : "cores"}
                               </span>
                             </span>
-                            <span className="font-mono text-sm text-muted-foreground">{cpuPct}%</span>
+                            <span className="font-mono text-sm text-muted-foreground font-medium pl-2">{cpuPct}%</span>
                           </div>
                           <div className="h-2 overflow-hidden rounded-sm bg-muted">
                             <div
@@ -338,7 +338,7 @@ export default function ClusterView() {
                           </div>
                         </div>
                         <div>
-                          <div className="mb-1.5 flex items-baseline justify-between">
+                          <div className="mb-1.5 flex items-baseline justify-between gap-2">
                             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
                               mem
                             </span>
@@ -346,7 +346,7 @@ export default function ClusterView() {
                               {formatBytes(node.usage?.memUsageBytes ?? 0)}
                               <span className="text-muted-foreground"> / {formattedMemory}</span>
                             </span>
-                            <span className="font-mono text-sm text-muted-foreground">{memPct}%</span>
+                            <span className="font-mono text-sm text-muted-foreground font-medium pl-2">{memPct}%</span>
                           </div>
                           <div className="h-2 overflow-hidden rounded-sm bg-muted">
                             <div

@@ -109,6 +109,10 @@ function cpuToNano(value: string | undefined): number {
   const trimmed = value.trim();
   const m = /^([\d.]+)m$/.exec(trimmed);
   if (m) return Math.round(parseFloat(m[1]!) * 1e6);
+  const uNano = /^([\d.]+)n$/.exec(trimmed);
+  if (uNano) return Math.round(parseFloat(uNano[1]!));
+  const uMicro = /^([\d.]+)u$/.exec(trimmed);
+  if (uMicro) return Math.round(parseFloat(uMicro[1]!) * 1e3);
   const n = parseFloat(trimmed);
   return Number.isFinite(n) ? Math.round(n * 1e9) : 0;
 }

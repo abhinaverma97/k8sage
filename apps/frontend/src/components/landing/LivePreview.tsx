@@ -112,13 +112,13 @@ export default function LivePreview() {
                   </div>
                   <div className="mt-3 space-y-2.5">
                     <div>
-                      <div className="mb-1 flex items-baseline justify-between font-mono text-xs text-muted-foreground">
+                      <div className="mb-1 flex items-baseline justify-between gap-2 font-mono text-xs text-muted-foreground">
                         <span className="uppercase tracking-[0.1em]">cpu</span>
                         <span className="text-sm text-foreground">
                           {formatCpu(node.usage?.cpuUsageNano ?? 0)}
-                          <span className="text-muted-foreground"> / {node.cpu} cores</span>
+                          <span className="text-muted-foreground"> / {node.cpu} {parseInt(node.cpu) === 1 ? "core" : "cores"}</span>
                         </span>
-                        <span>{cpuPct}%</span>
+                        <span className="pl-2 font-medium">{cpuPct}%</span>
                       </div>
                       <div className="h-2 overflow-hidden rounded-sm bg-muted">
                         <div
@@ -128,13 +128,13 @@ export default function LivePreview() {
                       </div>
                     </div>
                     <div>
-                      <div className="mb-1 flex items-baseline justify-between font-mono text-xs text-muted-foreground">
+                      <div className="mb-1 flex items-baseline justify-between gap-2 font-mono text-xs text-muted-foreground">
                         <span className="uppercase tracking-[0.1em]">mem</span>
                         <span className="text-sm text-foreground">
                           {formatBytes(node.usage?.memUsageBytes ?? 0)}
                           <span className="text-muted-foreground"> / {formattedMemory}</span>
                         </span>
-                        <span>{memPct}%</span>
+                        <span className="pl-2 font-medium">{memPct}%</span>
                       </div>
                       <div className="h-2 overflow-hidden rounded-sm bg-muted">
                         <div
