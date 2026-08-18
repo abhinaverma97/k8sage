@@ -29,7 +29,7 @@ const featureList = [
 export default function Features() {
   const reduce = useReducedMotion();
   return (
-    <section id="features" className="w-full border-t border-border/60 px-8 py-24 md:px-12 lg:px-16">
+    <section id="features" className="w-full border-t border-border/60 px-4 py-16 sm:px-8 md:px-12 lg:px-16 md:py-24">
       <div className="border-b border-border/80 pb-8">
         <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Capabilities
@@ -47,9 +47,9 @@ export default function Features() {
               key={item.title}
               initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, margin: "0px 0px -50px 0px" }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-card/40 backdrop-blur-xs p-8 transition hover:bg-card/60"
+              className="bg-card/40 backdrop-blur-xs p-8 transition hover:bg-card/60 transform-gpu"
             >
               <div className="flex size-9 place-items-center justify-center rounded border border-border bg-card text-foreground">
                 <Icon size={18} />

@@ -1,5 +1,9 @@
 export interface ChatClient {
-  ask(message: string, conversationId: string | null): Promise<AsyncIterable<SseEvent>>;
+  ask(
+    message: string,
+    conversationId: string | null,
+    history?: Array<{ role: "user" | "assistant"; content: string }>,
+  ): Promise<AsyncIterable<SseEvent>>;
 }
 
 export interface SseEvent {
@@ -67,14 +71,14 @@ async function* parseSse(body: ReadableStream<Uint8Array>): AsyncIterable<SseEve
 
 export function createChatClient(sageUrl: string): ChatClient {
   return {
-    async ask(message, conversationId) {
+    async ask(message, conversationId, history) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), SAGE_TIMEOUT_MS);
       try {
         const res = await fetch(`${sageUrl}/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message, conversationId }),
+          body: JSON.stringify({ message, conversationId, history }),
           signal: controller.signal,
         });
         if (!res.ok || !res.body) {

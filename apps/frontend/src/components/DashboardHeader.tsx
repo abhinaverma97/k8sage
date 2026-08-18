@@ -50,7 +50,7 @@ export default function DashboardHeader() {
         <span className="hidden rounded-lg border border-ink-600 px-3 py-1 font-mono text-[11px] text-ink-300 md:inline">
           ns: k8sage
         </span>
-        <span className="flex items-center gap-2 rounded-lg border border-ink-600 bg-ink-900 px-3 py-1 font-mono text-[11px] text-ink-200">
+        <span className="flex items-center gap-2 rounded-lg border border-ink-600 bg-ink-900 px-2.5 py-1 font-mono text-[10px] text-ink-200 sm:px-3 sm:text-[11px]">
           <StatusDot tone={status} />
           {label}
         </span>

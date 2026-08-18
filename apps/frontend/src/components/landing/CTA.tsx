@@ -15,9 +15,9 @@ export default function CTA() {
   };
 
   return (
-    <section className="w-full py-20 md:py-28">
-      <div className="mx-auto w-full max-w-6xl px-8 md:px-16 lg:px-24">
-        <div className="relative overflow-hidden border border-border/80 bg-card/60 p-10 md:p-16">
+    <section className="w-full py-16 md:py-28">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 md:px-16 lg:px-24">
+        <div className="relative overflow-hidden border border-border/80 bg-card/60 p-6 sm:p-10 md:p-16">
           <div className="relative z-10 mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded border border-border/80 bg-muted/40 px-3 py-1 font-mono text-xs text-muted-foreground">
               <TerminalWindow size={14} className="text-foreground" />
@@ -32,10 +32,10 @@ export default function CTA() {
               Launch the live interactive assistant console or apply the manifests directly to your k3s/k3d or cloud cluster.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/dashboard"
-                className="group inline-flex items-center gap-2.5 rounded border border-foreground bg-foreground px-6 py-3 font-mono text-xs font-semibold text-background transition hover:bg-foreground/90 active:scale-[0.98]"
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded border border-foreground bg-foreground px-6 py-3 font-mono text-xs font-semibold text-background transition hover:bg-foreground/90 active:scale-[0.98]"
               >
                 <span>Launch Assistant Console</span>
                 <ArrowRight size={14} weight="bold" className="transition-transform group-hover:translate-x-1" />
@@ -43,11 +43,11 @@ export default function CTA() {
 
               <button
                 onClick={copyCmd}
-                className="inline-flex items-center gap-3 rounded border border-border bg-card px-4 py-3 font-mono text-xs text-secondary-foreground transition hover:border-ring hover:text-foreground"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded border border-border bg-card px-4 py-3 font-mono text-xs text-secondary-foreground transition hover:border-ring hover:text-foreground"
               >
                 <span className="text-muted-foreground">$</span>
-                <span>{cmd}</span>
-                {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} className="text-muted-foreground" />}
+                <span className="truncate">{cmd}</span>
+                {copied ? <Check size={14} className="text-emerald-400 shrink-0" /> : <Copy size={14} className="text-muted-foreground shrink-0" />}
               </button>
             </div>
           </div>

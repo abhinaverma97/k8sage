@@ -32,7 +32,7 @@ export default function Security() {
 
   return (
     <section id="security" className="w-full py-24 md:py-32 border-t border-border/60">
-      <div className="mx-auto grid w-full items-center gap-12 px-8 md:px-12 lg:grid-cols-12 lg:gap-12 lg:px-16">
+      <div className="mx-auto grid w-full items-center gap-12 px-4 sm:px-8 md:px-12 lg:grid-cols-12 lg:gap-12 lg:px-16">
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

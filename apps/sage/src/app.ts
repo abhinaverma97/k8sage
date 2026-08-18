@@ -18,9 +18,10 @@ export function createApp(agent: Agent): Express {
   });
 
   app.post("/ask", async (req, res) => {
-    const { message, conversationId } = (req.body ?? {}) as {
+    const { message, conversationId, history } = (req.body ?? {}) as {
       message?: string;
       conversationId?: string;
+      history?: Array<{ role: "user" | "assistant"; content: string }>;
     };
     if (!message || typeof message !== "string" || message.trim().length === 0) {
       res.status(400).json({ error: "missing 'message' in request body" });
@@ -42,6 +43,7 @@ export function createApp(agent: Agent): Express {
     try {
       const answer = await agent.run(message, {
         conversationId,
+        history,
         onEvent: (event: AgentEvent) => {
           if (event.type === "tool") {
             send("tool", { name: event.name, args: event.args });

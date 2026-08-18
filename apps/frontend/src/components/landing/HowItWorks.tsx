@@ -31,7 +31,7 @@ export default function HowItWorks() {
   const reduce = useReducedMotion();
   return (
     <section id="how" className="w-full border-y border-border/80 bg-muted/10 py-24 md:py-32">
-      <div className="mx-auto w-full max-w-6xl px-8 md:px-16 lg:px-24">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 md:px-16 lg:px-24">
         {/* Section Header */}
         <div className="border-b border-border/80 pb-8">
           <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -51,9 +51,9 @@ export default function HowItWorks() {
                 key={step.n}
                 initial={reduce ? false : { opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
+                viewport={{ once: true, margin: "0px 0px -50px 0px" }}
                 transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="group flex flex-col justify-between bg-card/40 backdrop-blur-xs p-8 transition hover:bg-card/60"
+                className="group flex flex-col justify-between bg-card/40 backdrop-blur-xs p-8 transition hover:bg-card/60 transform-gpu"
               >
                 <div>
                   <div className="flex items-center justify-between font-mono text-xs">

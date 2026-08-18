@@ -70,11 +70,16 @@ export function createApp(deps: GatewayDeps): Express {
 
     let assistantText = "";
     try {
+      const existingHistory = await deps.history.getConversation(conversation);
+      const history = existingHistory
+        .slice(-10)
+        .map((m) => ({ role: m.role, content: m.content }));
+
       await deps.history.createConversation(conversation);
       await deps.history.addMessage(conversation, "user", message);
       send("start", { conversationId: conversation });
 
-      const events = await deps.chat.ask(message, conversation);
+      const events = await deps.chat.ask(message, conversation, history);
       for await (const sse of events) {
         if (sse.event === "done") {
           assistantText = String(sse.data.text ?? assistantText);

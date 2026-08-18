@@ -172,7 +172,7 @@ export default function ClusterView() {
                 </h2>
                 <span className="font-mono text-xs text-muted-foreground">{sorted.length}</span>
               </div>
-              <div className="mt-3 overflow-hidden rounded-lg border border-border">
+              <div className="mt-3 overflow-x-auto scrollbar-thin rounded-lg border border-border">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -297,7 +297,7 @@ export default function ClusterView() {
                   const formattedMemory = formatMemoryString(node.memory);
                   return (
                     <Card key={node.name} className="p-5">
-                      <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <span className="flex items-center gap-2 font-mono text-sm text-secondary-foreground">
                           <span
                             className={`size-2 rounded-full ${

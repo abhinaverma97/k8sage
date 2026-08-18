@@ -107,12 +107,12 @@ export default function Chat() {
                 Answers are backed by live state: pod status, events, log
                 tails, node resources. Read-only by design.
               </p>
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-2 pt-2 pb-1">
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s}
                     onClick={() => void send(s)}
-                    className="rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition hover:border-ring hover:text-foreground active:scale-[0.98]"
+                    className="shrink-0 rounded-lg border border-border bg-card px-3.5 py-2 text-xs sm:text-sm text-muted-foreground transition hover:border-ring hover:text-foreground active:scale-[0.98]"
                   >
                     {s}
                   </button>

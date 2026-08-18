@@ -7,6 +7,7 @@ export type AgentEvent =
 
 export interface AgentRunOptions {
   conversationId?: string;
+  history?: Array<{ role: "user" | "assistant"; content: string }>;
   onEvent?: (event: AgentEvent) => void;
 }
 
@@ -181,6 +182,10 @@ export function createAgent(options: {
   ): Promise<string> {
     const messages: LlmMessage[] = [
       { role: "system", content: SYSTEM_PROMPT },
+      ...(agentOptions.history ?? []).map((h) => ({
+        role: h.role,
+        content: h.content,
+      })),
       { role: "user", content: message },
     ];
     const toolResultMessages: LlmMessage[] = [];

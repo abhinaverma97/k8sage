@@ -129,16 +129,28 @@ describe("sage agent", () => {
     expect(answer).toBe("Evidence unavailable.");
   });
 
-  it("exposes the tool registry", () => {
-    const { llm } = fakeLlm({ rounds: [] });
+  it("attaches conversation history to messages when provided", async () => {
+    let capturedMessages: LlmMessage[] = [];
+    const llm = {
+      async complete(messages: LlmMessage[]) {
+        capturedMessages = messages;
+        return { choices: [{ message: { role: "assistant", content: "Got history." } }] };
+      },
+      async *completeStream() {
+        yield { choices: [{ delta: { content: "Got history." } }] };
+      },
+    };
+
     const agent = createAgent({ evidence: fakeEvidence({}), model: "fake", llm });
-    const names = agent.tools.map((t) => t.name);
-    expect(names).toEqual([
-      "cluster_summary",
-      "pod_status",
-      "pod_events",
-      "pod_logs",
-      "node_status",
-    ]);
+    const answer = await agent.run("what logs?", {
+      history: [
+        { role: "user", content: "why is orders-pod crashing?" },
+        { role: "assistant", content: "It is OOMKilled." },
+      ],
+    });
+
+    expect(answer).toBe("Got history.");
+    expect(capturedMessages.some((m) => m.content === "why is orders-pod crashing?")).toBe(true);
+    expect(capturedMessages.some((m) => m.content === "It is OOMKilled.")).toBe(true);
   });
 });

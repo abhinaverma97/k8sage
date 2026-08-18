@@ -7,7 +7,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 export default function Hero() {
   const reduce = useReducedMotion();
   return (
-    <section className="flex min-h-[calc(100vh-4rem)] w-full flex-col justify-center px-8 py-20 md:px-16 lg:px-24">
+    <section className="flex min-h-[calc(100vh-4rem)] w-full flex-col justify-center px-4 py-16 sm:px-8 md:px-16 lg:px-24">
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
