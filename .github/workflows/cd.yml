@@ -82,7 +82,7 @@ jobs:
 
             # 2. Clone / pull the repo
             if [ -d /opt/k8sage ]; then
-              cd /opt/k8sage && sudo git pull origin main
+              cd /opt/k8sage && sudo git fetch origin main && sudo git reset --hard origin/main
             else
               sudo git clone https://github.com/abhinaverma97/k8sage.git /opt/k8sage
               sudo chown -R "$(whoami):$(whoami)" /opt/k8sage
