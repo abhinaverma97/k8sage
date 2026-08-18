@@ -99,7 +99,9 @@ jobs:
               --dry-run=client -o yaml | sudo kubectl apply -f -
 
             # 4. Pin immutable image tags, then render + apply
-            command -v kustomize >/dev/null 2>&1 || sudo curl -sL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v5.4.3/kustomize_v5.4.3_linux_amd64.tar.gz" | sudo tar xz -C /usr/local/bin
+            ARCH=$(uname -m)
+            if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then KUST_ARCH="arm64"; else KUST_ARCH="amd64"; fi
+            command -v kustomize >/dev/null 2>&1 || sudo curl -sL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v5.4.3/kustomize_v5.4.3_linux_${KUST_ARCH}.tar.gz" | sudo tar xz -C /usr/local/bin
             cd /opt/k8sage/k8s/overlays/prod
             for svc in gateway sage evidence frontend; do
               sudo kustomize edit set image ghcr.io/abhinaverma97/k8sage-${svc}:v0.1.0=ghcr.io/abhinaverma97/k8sage-${svc}:${IMAGE_SHA}
