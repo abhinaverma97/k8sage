@@ -99,22 +99,22 @@ export default function Chat() {
       <div className="scrollbar-thin flex-1 overflow-y-auto px-4 py-6">
         <div className="mx-auto max-w-3xl">
           {turns.length === 0 && (
-            <div className="mt-24 space-y-6">
-              <h2 className="text-xl font-medium tracking-tight text-foreground">
+            <div className="mt-6 sm:mt-16 md:mt-24 space-y-4 sm:space-y-6">
+              <h2 className="text-lg sm:text-xl font-medium tracking-tight text-foreground">
                 Ask about this cluster
               </h2>
-              <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
+              <p className="max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
                 Answers are backed by live state: pod status, events, log
                 tails, node resources. Read-only by design.
               </p>
-              <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-2 pt-2 pb-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 pt-2">
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s}
                     onClick={() => void send(s)}
-                    className="shrink-0 rounded-lg border border-border bg-card px-3.5 py-2 text-xs sm:text-sm text-muted-foreground transition hover:border-ring hover:text-foreground active:scale-[0.98]"
+                    className="flex items-center text-left rounded-lg border border-border/80 bg-card/60 px-3.5 py-2.5 text-xs text-muted-foreground transition hover:border-ring hover:bg-card hover:text-foreground active:scale-[0.98]"
                   >
-                    {s}
+                    <span>{s}</span>
                   </button>
                 ))}
               </div>

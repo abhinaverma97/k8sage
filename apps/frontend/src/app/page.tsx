@@ -12,8 +12,8 @@ export default function Home() {
     <div className="relative min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background overflow-x-hidden">
       <Nav />
       <main className="relative mx-auto max-w-6xl border-x border-border/60">
-        {/* Full-Page Background WebGL Grainient Animation Constrained Within Grid Boundaries (opacity-60) */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-60 overflow-hidden">
+        {/* Full-Page Background WebGL Grainient Animation Constrained Within Grid Boundaries (opacity-60) - Hidden on mobile for GPU perf */}
+        <div className="hidden md:block absolute inset-0 z-0 pointer-events-none opacity-60 overflow-hidden">
           <Grainient
             color1="#070707"
             color2="#000000"

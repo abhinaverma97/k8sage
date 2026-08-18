@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import { ChatTeardropText, MagnifyingGlass, CheckCircle } from "@phosphor-icons/react";
 
 const steps = [
@@ -28,32 +27,27 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const reduce = useReducedMotion();
   return (
-    <section id="how" className="w-full border-y border-border/80 bg-muted/10 py-24 md:py-32">
+    <section id="how" className="w-full border-y border-border/80 bg-muted/10 py-12 sm:py-16 md:py-24 lg:py-32">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 md:px-16 lg:px-24">
         {/* Section Header */}
-        <div className="border-b border-border/80 pb-8">
+        <div className="border-b border-border/80 pb-6 sm:pb-8">
           <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
             Workflow
           </span>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             Three-stage diagnostic pipeline.
           </h2>
         </div>
 
         {/* Step Track Hairline Grid */}
-        <div className="mt-12 grid gap-px bg-border/60 md:grid-cols-3">
+        <div className="mt-8 sm:mt-12 grid gap-px bg-border/60 md:grid-cols-3">
           {steps.map((step, i) => {
             const Icon = step.icon;
             return (
-              <motion.div
+              <div
                 key={step.n}
-                initial={reduce ? false : { opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="group flex flex-col justify-between bg-card/40 backdrop-blur-xs p-8 transition hover:bg-card/60 transform-gpu"
+                className="group flex flex-col justify-between bg-card/40 p-4 sm:p-6 md:p-8 transition-colors hover:bg-card/60"
               >
                 <div>
                   <div className="flex items-center justify-between font-mono text-xs">
@@ -65,22 +59,22 @@ export default function HowItWorks() {
                     </span>
                   </div>
 
-                  <div className="mt-6 flex items-center gap-3">
+                  <div className="mt-5 sm:mt-6 flex items-center gap-3">
                     <Icon size={20} className="text-foreground transition-transform group-hover:scale-110" />
                     <h3 className="font-mono text-base font-semibold text-foreground">
                       {step.title}
                     </h3>
                   </div>
 
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed text-muted-foreground">
                     {step.body}
                   </p>
                 </div>
 
-                <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[11px] text-muted-foreground/60">
+                <div className="mt-6 sm:mt-8 border-t border-border/40 pt-4 font-mono text-[11px] text-muted-foreground/60">
                   Step {i + 1} of 3 // Automated Pipeline
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
