@@ -25,11 +25,13 @@ function int(args: Record<string, unknown>, key: string, fallback: number): numb
   return Number.isFinite(v) && v > 0 ? Math.floor(v) : fallback;
 }
 
-function formatAge(seconds: number): string {
-  if (seconds < 60) return `${seconds}s`;
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
-  return `${Math.floor(seconds / 86400)}d`;
+function formatAge(seconds: number | undefined | null): string {
+  if (seconds == null || Number.isNaN(seconds) || seconds < 0) return "0s";
+  const s = Math.floor(seconds);
+  if (s < 60) return `${s}s`;
+  if (s < 3600) return `${Math.floor(s / 60)}m`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h`;
+  return `${Math.floor(s / 86400)}d`;
 }
 
 export const tools: Tool[] = [

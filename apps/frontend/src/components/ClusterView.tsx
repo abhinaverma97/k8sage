@@ -3,7 +3,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { CaretDown, CaretRight } from "@phosphor-icons/react";
 import { fetchClusterSummary, fetchPods, type ClusterSummary, type PodLite } from "@/lib/api";
-import { formatBytes, formatCpu } from "@/lib/format";
+import { formatBytes, formatCpu, parseCpuCores, parseMemoryBytes, formatMemoryString } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,11 +15,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-function formatAge(seconds: number): string {
-  if (seconds < 60) return `${seconds}s`;
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
-  return `${Math.floor(seconds / 86400)}d`;
+function formatAge(seconds: number | undefined | null): string {
+  if (seconds == null || Number.isNaN(seconds) || seconds < 0) return "0s";
+  const s = Math.floor(seconds);
+  if (s < 60) return `${s}s`;
+  if (s < 3600) return `${Math.floor(s / 60)}m`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h`;
+  return `${Math.floor(s / 86400)}d`;
 }
 
 function podStatus(pod: PodLite): string {
@@ -284,12 +286,15 @@ export default function ClusterView() {
               </h2>
               <div className="mt-3 grid gap-3 lg:grid-cols-2">
                 {summary.nodes.map((node) => {
+                  const totalCores = parseCpuCores(node.cpu);
                   const cpuPct = node.usage?.cpuUsageNano
-                    ? Math.min(100, Math.round((node.usage.cpuUsageNano / 1e9 / 2) * 100))
+                    ? Math.min(100, Math.round(((node.usage.cpuUsageNano / 1e9) / totalCores) * 100))
                     : 0;
-                  const memPct = node.usage?.memUsageBytes
-                    ? Math.min(100, Math.round((node.usage.memUsageBytes / 12e9) * 100))
+                  const totalMemBytes = parseMemoryBytes(node.memory);
+                  const memPct = node.usage?.memUsageBytes && totalMemBytes > 0
+                    ? Math.min(100, Math.round((node.usage.memUsageBytes / totalMemBytes) * 100))
                     : 0;
+                  const formattedMemory = formatMemoryString(node.memory);
                   return (
                     <Card key={node.name} className="p-5">
                       <div className="flex items-center justify-between">
@@ -339,7 +344,7 @@ export default function ClusterView() {
                             </span>
                             <span className="font-mono text-sm text-foreground">
                               {formatBytes(node.usage?.memUsageBytes ?? 0)}
-                              <span className="text-muted-foreground"> / {node.memory}</span>
+                              <span className="text-muted-foreground"> / {formattedMemory}</span>
                             </span>
                             <span className="font-mono text-sm text-muted-foreground">{memPct}%</span>
                           </div>

@@ -2,41 +2,36 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { Button } from "@/components/ui/button";
-import LivePreview from "./LivePreview";
+import { ArrowRight } from "@phosphor-icons/react";
 
 export default function Hero() {
   const reduce = useReducedMotion();
   return (
-    <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 pt-20 md:pt-24 lg:grid-cols-2 lg:gap-16">
+    <section className="flex min-h-[calc(100vh-4rem)] w-full flex-col justify-center px-8 py-20 md:px-16 lg:px-24">
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 16 }}
+        initial={reduce ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-4xl"
       >
-        <h1 className="max-w-xl text-4xl font-medium leading-[1.08] tracking-tighter text-foreground md:text-5xl lg:text-6xl">
-          Cluster diagnostics, answered in plain English.
+        <h1 className="text-5xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-7xl lg:text-8xl">
+          Kubernetes diagnostics, <br />
+          <span className="text-muted-foreground font-normal">grounded in evidence.</span>
         </h1>
-        <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-          Ask about pods, logs, and nodes. K8Sage runs read-only checks against
-          your cluster and answers with the evidence.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Button asChild size="lg">
-            <Link href="/dashboard">Open dashboard</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href="#how">How it works</a>
-          </Button>
-        </div>
-      </motion.div>
 
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <LivePreview />
+        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          Ask operational queries about your cluster in plain English. K8Sage inspects live pod state, log tails, events, and node metrics through sandboxed read-only RBAC.
+        </p>
+
+        <div className="mt-10 flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="group inline-flex items-center gap-3 rounded border border-foreground bg-foreground px-7 py-3.5 font-mono text-xs font-semibold text-background transition hover:bg-foreground/90 active:scale-[0.98]"
+          >
+            <span>Launch Assistant Console</span>
+            <ArrowRight size={15} weight="bold" className="transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
       </motion.div>
     </section>
   );

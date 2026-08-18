@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchClusterSummary, type ClusterSummary } from "@/lib/api";
-import { formatBytes, formatCpu } from "@/lib/format";
+import { formatBytes, formatCpu, parseCpuCores, parseMemoryBytes, formatMemoryString } from "@/lib/format";
 import { Card } from "@/components/ui/card";
 
 export default function LivePreview() {
@@ -88,12 +88,15 @@ export default function LivePreview() {
 
           <div className="mt-5 space-y-3">
             {summary.nodes.map((node) => {
+              const totalCores = parseCpuCores(node.cpu);
               const cpuPct = node.usage?.cpuUsageNano
-                ? Math.min(100, Math.round((node.usage.cpuUsageNano / 1e9 / 2) * 100))
+                ? Math.min(100, Math.round(((node.usage.cpuUsageNano / 1e9) / totalCores) * 100))
                 : 0;
-              const memPct = node.usage?.memUsageBytes
-                ? Math.min(100, Math.round((node.usage.memUsageBytes / 12e9) * 100))
+              const totalMemBytes = parseMemoryBytes(node.memory);
+              const memPct = node.usage?.memUsageBytes && totalMemBytes > 0
+                ? Math.min(100, Math.round((node.usage.memUsageBytes / totalMemBytes) * 100))
                 : 0;
+              const formattedMemory = formatMemoryString(node.memory);
               return (
                 <div key={node.name} className="rounded-md border border-border bg-muted/40 px-4 py-3">
                   <div className="flex items-center justify-between">
@@ -113,7 +116,7 @@ export default function LivePreview() {
                         <span className="uppercase tracking-[0.1em]">cpu</span>
                         <span className="text-sm text-foreground">
                           {formatCpu(node.usage?.cpuUsageNano ?? 0)}
-                          <span className="text-muted-foreground"> / {node.cpu}</span>
+                          <span className="text-muted-foreground"> / {node.cpu} cores</span>
                         </span>
                         <span>{cpuPct}%</span>
                       </div>
@@ -129,7 +132,7 @@ export default function LivePreview() {
                         <span className="uppercase tracking-[0.1em]">mem</span>
                         <span className="text-sm text-foreground">
                           {formatBytes(node.usage?.memUsageBytes ?? 0)}
-                          <span className="text-muted-foreground"> / {node.memory}</span>
+                          <span className="text-muted-foreground"> / {formattedMemory}</span>
                         </span>
                         <span>{memPct}%</span>
                       </div>

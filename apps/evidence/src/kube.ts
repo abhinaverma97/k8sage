@@ -18,10 +18,10 @@ function podReady(pod: k8s.V1Pod): boolean {
   );
 }
 
-function ageSeconds(ts: string | Date | undefined): number {
+function ageSeconds(ts: string | Date | number | undefined | null): number {
   if (!ts) return 0;
-  const t = ts instanceof Date ? ts.getTime() : Date.parse(ts);
-  if (Number.isNaN(t)) return 0;
+  const t = ts instanceof Date ? ts.getTime() : typeof ts === "number" ? ts : new Date(ts).getTime();
+  if (!t || Number.isNaN(t)) return 0;
   return Math.max(0, Math.floor((Date.now() - t) / 1000));
 }
 
