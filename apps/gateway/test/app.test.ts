@@ -149,4 +149,13 @@ describe("gateway HTTP API", () => {
     const blocked = await request(app).post("/api/chat").send({ message: "q3" });
     expect(blocked.status).toBe(429);
   });
+
+  it("handles X-Forwarded-For header from reverse proxy without throwing", async () => {
+    const app = createApp(deps);
+    const res = await request(app)
+      .get("/health")
+      .set("X-Forwarded-For", "203.0.113.195");
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+  });
 });

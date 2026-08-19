@@ -15,6 +15,7 @@ export interface GatewayDeps {
 
 export function createApp(deps: GatewayDeps): Express {
   const app = express();
+  app.set("trust proxy", 1);
   app.use(express.json());
 
   const allowedOrigin = deps.allowedOrigin ?? "*";
